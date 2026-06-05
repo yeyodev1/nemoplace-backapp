@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import models from "../models";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
-const JWT_EXPIRES_IN = "7d";
+const JWT_EXPIRES_IN = "28d";
 
 export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -30,6 +30,7 @@ export async function register(req: Request, res: Response, next: NextFunction):
       name,
       email,
       password,
+      role: "Owner",
       workspaceId: workspace._id,
     });
 
