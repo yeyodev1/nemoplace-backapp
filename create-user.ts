@@ -1,9 +1,11 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import "dotenv/config";
 
-const uri = "mongodb+srv://dreyes_db_user:lUlv5nL5PfR7xltc@production.kvgnbgf.mongodb.net/?appName=production";
+const uri = process.env.DB_URI;
 
 async function run() {
+  if (!uri) throw new Error("DB_URI is not defined");
   await mongoose.connect(uri);
 
   const UserSchema = new mongoose.Schema({

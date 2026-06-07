@@ -150,7 +150,7 @@ export class MetaService {
           .get(`${this.graphUrl}/act_${adAccountId}/ads`, {
             params: {
               access_token: accessToken,
-              fields: "id,effective_status,adcreatives{thumbnail_url,image_url}",
+              fields: "id,effective_status,adcreatives{thumbnail_url,image_url,effective_object_story_id,instagram_permalink_url}",
               limit: 500,
             },
           })
@@ -159,12 +159,18 @@ export class MetaService {
 
       const statusMap: Record<string, string> = {};
       const creativeMap: Record<string, string> = {};
+      const linkMap: Record<string, string> = {};
       
       for (const ad of adsStatusResponse.data.data || []) {
         statusMap[ad.id] = ad.effective_status;
         const creative = ad.adcreatives?.data?.[0];
         if (creative) {
           creativeMap[ad.id] = creative.image_url || creative.thumbnail_url;
+          if (creative.instagram_permalink_url) {
+            linkMap[ad.id] = creative.instagram_permalink_url;
+          } else if (creative.effective_object_story_id) {
+            linkMap[ad.id] = `https://facebook.com/${creative.effective_object_story_id}`;
+          }
         }
       }
 
@@ -172,6 +178,7 @@ export class MetaService {
         ...row,
         effective_status: statusMap[row.ad_id] ?? "UNKNOWN",
         creative_url: creativeMap[row.ad_id] || null,
+        ad_link: linkMap[row.ad_id] || null,
       }));
 
       return {

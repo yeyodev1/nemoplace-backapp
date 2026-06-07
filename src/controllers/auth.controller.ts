@@ -3,7 +3,7 @@ import { HttpStatusCode } from "axios";
 import jwt from "jsonwebtoken";
 import models from "../models";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
+const JWT_SECRET = process.env.JWT_SECRET as string;
 const JWT_EXPIRES_IN = "28d";
 
 export async function register(req: Request, res: Response, next: NextFunction): Promise<void> {
