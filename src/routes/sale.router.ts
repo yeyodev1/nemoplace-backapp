@@ -9,5 +9,7 @@ const saleRouter = Router();
 saleRouter.post("/", saleController.createSale);
 saleRouter.get("/:workspaceId", saleController.getSalesByWorkspace);
 saleRouter.get("/:workspaceId/stats", saleController.getSalesStats);
+saleRouter.put("/:id", saleController.updateSale);
+saleRouter.delete("/:id", saleController.deleteSale);
 
 export default saleRouter;

@@ -71,3 +71,60 @@ export async function getSalesStats(req: Request, res: Response, next: NextFunct
     next(error);
   }
 }
+
+export async function updateSale(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { id } = req.params;
+    const { amount, conversationsGenerated, adId, customerName, notes, saleDate } = req.body;
+
+    if (amount === undefined) {
+      res.status(HttpStatusCode.BadRequest).send({ message: "Amount is required." });
+      return;
+    }
+
+    const sale = await models.sales.findByIdAndUpdate(
+      id,
+      {
+        amount,
+        conversationsGenerated: conversationsGenerated || 0,
+        adId,
+        customerName,
+        notes,
+        saleDate: saleDate || new Date(),
+      },
+      { new: true }
+    );
+
+    if (!sale) {
+      res.status(HttpStatusCode.NotFound).send({ message: "Sale not found." });
+      return;
+    }
+
+    res.status(HttpStatusCode.Ok).send({
+      message: "Sale updated successfully.",
+      sale,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteSale(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const { id } = req.params;
+
+    const sale = await models.sales.findByIdAndDelete(id);
+
+    if (!sale) {
+      res.status(HttpStatusCode.NotFound).send({ message: "Sale not found." });
+      return;
+    }
+
+    res.status(HttpStatusCode.Ok).send({
+      message: "Sale deleted successfully.",
+      sale,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
