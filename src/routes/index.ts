@@ -3,6 +3,7 @@ import metaRouter from "./meta.router";
 import saleRouter from "./sale.router";
 import authRouter from "./auth.router";
 import userRouter from "./user.router";
+import ghlRouter from "./ghl.router";
 
 function routerApi(app: Application) {
   const router = express.Router();
@@ -13,6 +14,7 @@ function routerApi(app: Application) {
   router.use("/meta", metaRouter);
   router.use("/sales", saleRouter);
   router.use("/workspaces", userRouter);
+  router.use("/ghl", ghlRouter);
 }
 
 export default routerApi;
