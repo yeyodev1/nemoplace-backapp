@@ -2,20 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/index.js",
+      "src": "api/index.ts",
       "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "dist/index.js"
-    }
-  ],
-  "crons": [
-    {
-      "path": "/api/cron/tumesero-sync",
-      "schedule": "0 4 * * *"
+      "destination": "api/index.ts"
     }
   ]
 }

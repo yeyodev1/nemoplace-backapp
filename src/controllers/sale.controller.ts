@@ -4,7 +4,7 @@ import models from "../models";
 
 export async function createSale(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
-    const { workspaceId, amount, conversationsGenerated, adId, customerName, notes, saleDate } = req.body;
+    const { workspaceId, amount, conversationsGenerated, adId, customerName, servicioContratado, ubicacion, notes, saleDate } = req.body;
 
     if (!workspaceId || amount === undefined) {
       res.status(HttpStatusCode.BadRequest).send({ message: "Workspace ID and amount are required." });
@@ -17,6 +17,8 @@ export async function createSale(req: Request, res: Response, next: NextFunction
       conversationsGenerated: conversationsGenerated || 0,
       adId,
       customerName,
+      servicioContratado,
+      ubicacion,
       notes,
       saleDate: saleDate || new Date(),
     });
@@ -75,7 +77,7 @@ export async function getSalesStats(req: Request, res: Response, next: NextFunct
 export async function updateSale(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const { id } = req.params;
-    const { amount, conversationsGenerated, adId, customerName, notes, saleDate } = req.body;
+    const { amount, conversationsGenerated, adId, customerName, servicioContratado, ubicacion, notes, saleDate } = req.body;
 
     if (amount === undefined) {
       res.status(HttpStatusCode.BadRequest).send({ message: "Amount is required." });
@@ -89,6 +91,8 @@ export async function updateSale(req: Request, res: Response, next: NextFunction
         conversationsGenerated: conversationsGenerated || 0,
         adId,
         customerName,
+        servicioContratado,
+        ubicacion,
         notes,
         saleDate: saleDate || new Date(),
       },

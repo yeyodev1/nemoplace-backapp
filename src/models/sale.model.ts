@@ -2,10 +2,12 @@ import { Schema, model, Document, Types } from "mongoose";
 
 export interface ISale extends Document {
   workspaceId: Types.ObjectId;
-  adId?: string; // Optional if organic sale
+  adId?: string;
   amount: number;
   conversationsGenerated: number;
   customerName?: string;
+  servicioContratado?: string;
+  ubicacion?: string;
   notes?: string;
   saleDate: Date;
   createdAt: Date;
@@ -34,6 +36,14 @@ const SaleSchema = new Schema<ISale>(
       min: 0,
     },
     customerName: {
+      type: String,
+      trim: true,
+    },
+    servicioContratado: {
+      type: String,
+      trim: true,
+    },
+    ubicacion: {
       type: String,
       trim: true,
     },
